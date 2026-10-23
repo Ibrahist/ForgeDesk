@@ -160,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const SizedBox(height: 20),
                                     RecentConnectionsList(
                                       sessions: _recentSessions,
+                                      isDarkMode: widget.isDarkMode,
                                       onSelectSession: (item) {
                                         _targetIdCtrl.text = item.id;
                                         _initiateConnection(targetId: item.id);
@@ -188,6 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 20),
                               RecentConnectionsList(
                                 sessions: _recentSessions,
+                                isDarkMode: widget.isDarkMode,
                                 onSelectSession: (item) {
                                   _targetIdCtrl.text = item.id;
                                   _initiateConnection(targetId: item.id);
@@ -234,9 +236,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(width: 10),
-          const Text(
+          Text(
             AppConstants.appName,
             style: TextStyle(
+              color: widget.isDarkMode ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
               fontSize: 19,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.5,
@@ -256,21 +259,26 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: widget.onToggleTheme,
             icon: Icon(
               widget.isDarkMode ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
-              color: ForgeColors.textSecondary,
+              color: widget.isDarkMode ? ForgeColors.textSecondary : ForgeLightColors.textPrimary,
             ),
             tooltip: widget.isDarkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme',
             style: IconButton.styleFrom(
-              backgroundColor: ForgeColors.surfaceLight,
+              backgroundColor: widget.isDarkMode ? ForgeColors.surfaceLight : const Color(0xFFEFF6FF),
+              side: widget.isDarkMode ? null : const BorderSide(color: Color(0xFFBFDBFE)),
               padding: const EdgeInsets.all(10),
             ),
           ),
         const SizedBox(width: 4),
         IconButton(
           onPressed: _openSettings,
-          icon: const Icon(Icons.settings_outlined, color: ForgeColors.textSecondary),
+          icon: Icon(
+            Icons.settings_outlined,
+            color: widget.isDarkMode ? ForgeColors.textSecondary : ForgeLightColors.textPrimary,
+          ),
           tooltip: 'Server & Network Settings',
           style: IconButton.styleFrom(
-            backgroundColor: ForgeColors.surfaceLight,
+            backgroundColor: widget.isDarkMode ? ForgeColors.surfaceLight : const Color(0xFFEFF6FF),
+            side: widget.isDarkMode ? null : const BorderSide(color: Color(0xFFBFDBFE)),
             padding: const EdgeInsets.all(10),
           ),
         ),

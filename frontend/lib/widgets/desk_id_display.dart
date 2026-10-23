@@ -159,10 +159,14 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
                 ),
                 IconButton(
                   onPressed: () => _copyToClipboard(widget.peerId, 'Device ID'),
-                  icon: const Icon(Icons.copy_rounded, color: ForgeColors.textSecondary, size: 20),
+                  icon: Icon(
+                    Icons.copy_rounded,
+                    color: isDark ? ForgeColors.textSecondary : ForgeLightColors.textPrimary,
+                    size: 20,
+                  ),
                   tooltip: 'Copy ID',
                   style: IconButton.styleFrom(
-                    backgroundColor: ForgeColors.surface,
+                    backgroundColor: isDark ? ForgeColors.surface : const Color(0xFFEFF6FF),
                     padding: const EdgeInsets.all(12),
                   ),
                 ),
@@ -183,32 +187,35 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'ONE-TIME PASSWORD',
-                      style: TextStyle(
-                        color: ForgeColors.textMuted,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'ONE-TIME PASSWORD',
+                        style: TextStyle(
+                          color: ForgeColors.textMuted,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _showPassword ? widget.tempPassword : '••••••',
-                      style: const TextStyle(
-                        color: ForgeColors.textPrimary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 4.0,
-                        fontFamily: 'monospace',
+                      const SizedBox(height: 4),
+                      Text(
+                        _showPassword ? widget.tempPassword : '••••••',
+                        style: TextStyle(
+                          color: isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 4.0,
+                          fontFamily: 'monospace',
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
                       onPressed: () {
@@ -218,32 +225,40 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
                       },
                       icon: Icon(
                         _showPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                        color: ForgeColors.textSecondary,
+                        color: isDark ? ForgeColors.textSecondary : ForgeLightColors.textPrimary,
                         size: 20,
                       ),
                       tooltip: _showPassword ? 'Hide password' : 'Show password',
                       style: IconButton.styleFrom(
-                        backgroundColor: ForgeColors.surface,
+                        backgroundColor: isDark ? ForgeColors.surface : const Color(0xFFEFF6FF),
                         padding: const EdgeInsets.all(10),
                       ),
                     ),
                     const SizedBox(width: 8),
                     IconButton(
                       onPressed: widget.onRegeneratePassword,
-                      icon: const Icon(Icons.refresh_rounded, color: ForgeColors.textSecondary, size: 20),
+                      icon: Icon(
+                        Icons.refresh_rounded,
+                        color: isDark ? ForgeColors.textSecondary : ForgeLightColors.textPrimary,
+                        size: 20,
+                      ),
                       tooltip: 'Generate new password',
                       style: IconButton.styleFrom(
-                        backgroundColor: ForgeColors.surface,
+                        backgroundColor: isDark ? ForgeColors.surface : const Color(0xFFEFF6FF),
                         padding: const EdgeInsets.all(10),
                       ),
                     ),
                     const SizedBox(width: 8),
                     IconButton(
                       onPressed: () => _copyToClipboard(widget.tempPassword, 'Password'),
-                      icon: const Icon(Icons.copy_rounded, color: ForgeColors.textSecondary, size: 20),
+                      icon: Icon(
+                        Icons.copy_rounded,
+                        color: isDark ? ForgeColors.textSecondary : ForgeLightColors.textPrimary,
+                        size: 20,
+                      ),
                       tooltip: 'Copy Password',
                       style: IconButton.styleFrom(
-                        backgroundColor: ForgeColors.surface,
+                        backgroundColor: isDark ? ForgeColors.surface : const Color(0xFFEFF6FF),
                         padding: const EdgeInsets.all(10),
                       ),
                     ),

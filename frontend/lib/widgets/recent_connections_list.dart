@@ -7,36 +7,38 @@ class RecentConnectionsList extends StatelessWidget {
   final List<RecentSessionItem> sessions;
   final ValueChanged<RecentSessionItem> onSelectSession;
   final ValueChanged<RecentSessionItem> onRemoveSession;
+  final bool? isDarkMode;
 
   const RecentConnectionsList({
     super.key,
     required this.sessions,
     required this.onSelectSession,
     required this.onRemoveSession,
+    this.isDarkMode,
   });
-
-  IconData _getOsIcon(String osType) {
-    switch (osType.toLowerCase()) {
-      case 'linux':
-        return Icons.terminal_rounded;
-      case 'macos':
-      case 'ios':
-        return Icons.apple_rounded;
-      case 'android':
-        return Icons.android_rounded;
-      default:
-        return Icons.window_rounded;
-    }
-  }
 
   String _formatTimeAgo(DateTime dt) {
     final diff = DateTime.now().difference(dt);
-    if (diff.inMinutes < 60) {
-      return '${diff.inMinutes}m ago';
-    } else if (diff.inHours < 24) {
-      return '${diff.inHours}h ago';
-    } else {
-      return '${diff.inDays}d ago';
+    if (diff.inMinutes < 1) return 'just now';
+    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    return '${diff.inDays}d ago';
+  }
+
+  IconData _getOsIcon(String osType) {
+    switch (osType.toLowerCase()) {
+      case 'windows':
+        return Icons.window_rounded;
+      case 'macos':
+        return Icons.apple_rounded;
+      case 'linux':
+        return Icons.terminal_rounded;
+      case 'android':
+        return Icons.phone_android_rounded;
+      case 'ios':
+        return Icons.phone_iphone_rounded;
+      default:
+        return Icons.desktop_windows_rounded;
     }
   }
 
@@ -46,19 +48,30 @@ class RecentConnectionsList extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final isDark = isDarkMode ?? (Theme.of(context).brightness == Brightness.dark);
+    final headerTextColor = isDark ? ForgeColors.textSecondary : ForgeLightColors.textPrimary;
+    final itemTitleColor = isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary;
+    final iconBgColor = isDark ? ForgeColors.surfaceLight : const Color(0xFFEFF6FF);
+    final buttonBgColor = isDark ? ForgeColors.surfaceLight : const Color(0xFFEFF6FF);
+    final buttonBorderColor = isDark ? ForgeColors.border : const Color(0xFFBFDBFE);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Row(
             children: [
-              Icon(Icons.history_rounded, size: 18, color: ForgeColors.textSecondary),
-              SizedBox(width: 8),
+              Icon(
+                Icons.history_rounded,
+                size: 18,
+                color: isDark ? ForgeColors.textSecondary : ForgeColors.primary,
+              ),
+              const SizedBox(width: 8),
               Text(
                 'Recent Connections',
                 style: TextStyle(
-                  color: ForgeColors.textSecondary,
+                  color: headerTextColor,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.3,
@@ -83,9 +96,7 @@ class RecentConnectionsList extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? ForgeColors.surfaceLight
-                          : const Color(0xFFEFF6FF),
+                      color: iconBgColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -102,9 +113,7 @@ class RecentConnectionsList extends StatelessWidget {
                         Text(
                           item.alias,
                           style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? ForgeColors.textPrimary
-                                : ForgeLightColors.textPrimary,
+                            color: itemTitleColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
@@ -140,11 +149,11 @@ class RecentConnectionsList extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () => onSelectSession(item),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ForgeColors.surfaceLight,
+                      backgroundColor: buttonBgColor,
                       foregroundColor: ForgeColors.primary,
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                       elevation: 0,
-                      side: const BorderSide(color: ForgeColors.border),
+                      side: BorderSide(color: buttonBorderColor),
                     ),
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,

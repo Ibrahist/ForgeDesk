@@ -53,8 +53,16 @@ class ForgeLightColors {
 }
 
 class ForgeTheme {
+  static ThemeData? _cachedDarkTheme;
+  static ThemeData? _cachedLightTheme;
+
   /// Default Dark Theme: Deep Midnight Navy Blue & Crisp Pure White
-  static ThemeData get darkTheme {
+  static ThemeData get darkTheme => _cachedDarkTheme ??= _buildDarkTheme();
+
+  /// Light Theme: Clean Pure White & Royal Blue
+  static ThemeData get lightTheme => _cachedLightTheme ??= _buildLightTheme();
+
+  static ThemeData _buildDarkTheme() {
     final baseTextTheme = ThemeData.dark().textTheme;
     final orbitronTextTheme = GoogleFonts.orbitronTextTheme(baseTextTheme).apply(
       bodyColor: ForgeColors.textPrimary,
@@ -156,8 +164,7 @@ class ForgeTheme {
     );
   }
 
-  /// Light Theme: Clean Pure White & Royal Blue
-  static ThemeData get lightTheme {
+  static ThemeData _buildLightTheme() {
     final baseTextTheme = ThemeData.light().textTheme;
     final orbitronTextTheme = GoogleFonts.orbitronTextTheme(baseTextTheme).apply(
       bodyColor: ForgeLightColors.textPrimary,

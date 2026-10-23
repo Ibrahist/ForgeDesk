@@ -29,6 +29,7 @@ class ForgeDeskApp extends StatelessWidget {
         return MaterialApp(
           title: AppConstants.appName,
           debugShowCheckedModeBanner: false,
+          themeAnimationDuration: Duration.zero,
           theme: ForgeTheme.lightTheme,
           darkTheme: ForgeTheme.darkTheme,
           themeMode: currentMode,
