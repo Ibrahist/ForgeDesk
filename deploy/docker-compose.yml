@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  forgedesk-server:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.server
+    image: forgedesk/server:latest
+    container_name: forgedesk-server
+    restart: unless-stopped
+    ports:
+      # Rendezvous & Signaling
+      - "21115:21115"
+      # Encrypted Relay Stream
+      - "21117:21117"
+    environment:
+      - RUST_LOG=info
+    # Optional server security key (uncomment to enforce private key authentication)
+    # command: ["--bind", "0.0.0.0", "--rendezvous-port", "21115", "--relay-port", "21117", "--server-key", "my-secret-vault-key"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"

@@ -1,0 +1,44 @@
+# ==========================================
+# ForgeDesk Server - Multi-Stage Dockerfile
+# Lightweight Self-Hosted Rendezvous & Relay
+# ==========================================
+
+FROM rust:1.80-slim as builder
+
+WORKDIR /usr/src/forgedesk
+
+# Copy workspace manifests
+COPY Cargo.toml ./
+COPY crates/forgedesk-core/Cargo.toml crates/forgedesk-core/
+COPY crates/forgedesk-server/Cargo.toml crates/forgedesk-server/
+COPY crates/forgedesk-ffi/Cargo.toml crates/forgedesk-ffi/
+COPY crates/forgedesk-cli/Cargo.toml crates/forgedesk-cli/
+
+# Copy sources
+COPY crates/forgedesk-core crates/forgedesk-core
+COPY crates/forgedesk-server crates/forgedesk-server
+COPY crates/forgedesk-ffi crates/forgedesk-ffi
+COPY crates/forgedesk-cli crates/forgedesk-cli
+
+# Build release binary for server
+RUN cargo build --release --bin forgedesk-server
+
+# ==========================================
+# Final Minimal Runtime Image
+# ==========================================
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY --from=builder /usr/src/forgedesk/target/release/forgedesk-server /usr/local/bin/forgedesk-server
+
+# Ports:
+# 21115: Rendezvous & Signaling WebSocket/TCP
+# 21117: Encrypted Stream Relay WebSocket/TCP
+EXPOSE 21115 21117
+
+ENTRYPOINT ["/usr/local/bin/forgedesk-server"]
+CMD ["--bind", "0.0.0.0", "--rendezvous-port", "21115", "--relay-port", "21117"]

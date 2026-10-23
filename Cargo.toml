@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "crates/forgedesk-core",
+    "crates/forgedesk-server",
+    "crates/forgedesk-ffi",
+    "crates/forgedesk-cli",
+]
+resolver = "2"

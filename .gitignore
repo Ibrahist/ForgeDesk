@@ -1,0 +1,28 @@
+# Rust build artifacts
+target/
+**/*.rs.bk
+Cargo.lock
+
+# Flutter/Dart build artifacts
+.dart_tool/
+.packages
+build/
+*.mode1v3
+*.mode2v3
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS Generated
+*.log
