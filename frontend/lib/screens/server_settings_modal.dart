@@ -66,11 +66,21 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final dialogBg = isDark ? ForgeColors.surface : Colors.white;
+    final dialogBorder = isDark ? ForgeColors.border : const Color(0xFFCBD5E1);
+    final titleColor = isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary;
+    final mutedColor = isDark ? ForgeColors.textMuted : ForgeLightColors.textMuted;
+    final selectorBg = isDark ? ForgeColors.surfaceLight : const Color(0xFFF1F5F9);
+    final selectorBorder = isDark ? ForgeColors.border : const Color(0xFFE2E8F0);
+    final tabActiveBg = isDark ? ForgeColors.card : Colors.white;
+    final inputBg = isDark ? ForgeColors.surfaceLight : const Color(0xFFF8FAFC);
+
     return Dialog(
-      backgroundColor: ForgeColors.surface,
+      backgroundColor: dialogBg,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: ForgeColors.border),
+        side: BorderSide(color: dialogBorder),
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 580),
@@ -85,23 +95,23 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.dns_rounded, color: ForgeColors.primary, size: 24),
-                        SizedBox(width: 12),
+                        const Icon(Icons.dns_rounded, color: ForgeColors.primary, size: 24),
+                        const SizedBox(width: 12),
                         Text(
                           'Server & Privacy Settings',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: ForgeColors.textPrimary,
+                            color: titleColor,
                           ),
                         ),
                       ],
                     ),
                     IconButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.close_rounded, color: ForgeColors.textMuted),
+                      icon: Icon(Icons.close_rounded, color: mutedColor),
                     ),
                   ],
                 ),
@@ -112,9 +122,9 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                 Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: ForgeColors.surfaceLight,
+                    color: selectorBg,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: ForgeColors.border),
+                    border: Border.all(color: selectorBorder),
                   ),
                   child: Row(
                     children: [
@@ -130,14 +140,23 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
-                              color: !_isSelfHosted ? ForgeColors.card : Colors.transparent,
+                              color: !_isSelfHosted ? tabActiveBg : Colors.transparent,
                               borderRadius: BorderRadius.circular(8),
+                              boxShadow: !isDark && !_isSelfHosted
+                                  ? [
+                                      BoxShadow(
+                                        color: const Color(0xFF1E293B).withValues(alpha: 0.08),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ]
+                                  : null,
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               'Public Network (Default)',
                               style: TextStyle(
-                                color: !_isSelfHosted ? ForgeColors.primary : ForgeColors.textSecondary,
+                                color: !_isSelfHosted ? ForgeColors.primary : mutedColor,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 13,
                               ),
@@ -159,14 +178,23 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
-                              color: _isSelfHosted ? ForgeColors.card : Colors.transparent,
+                              color: _isSelfHosted ? tabActiveBg : Colors.transparent,
                               borderRadius: BorderRadius.circular(8),
+                              boxShadow: !isDark && _isSelfHosted
+                                  ? [
+                                      BoxShadow(
+                                        color: const Color(0xFF1E293B).withValues(alpha: 0.08),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ]
+                                  : null,
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               'Private Self-Hosted Server',
                               style: TextStyle(
-                                color: _isSelfHosted ? ForgeColors.primary : ForgeColors.textSecondary,
+                                color: _isSelfHosted ? ForgeColors.primary : mutedColor,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 13,
                               ),
@@ -183,7 +211,10 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                 if (_isSelfHosted) ...[
                   GlassCard(
                     padding: const EdgeInsets.all(16),
-                    backgroundColor: ForgeColors.surfaceLight.withValues(alpha: 0.5),
+                    backgroundColor: isDark
+                        ? ForgeColors.surfaceLight.withValues(alpha: 0.5)
+                        : const Color(0xFFF8FAFC),
+                    borderColor: isDark ? ForgeColors.border : const Color(0xFFBFDBFE),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -198,26 +229,44 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                         const SizedBox(height: 12),
                         TextField(
                           controller: _rendezvousCtrl,
-                          decoration: const InputDecoration(
+                          style: TextStyle(color: titleColor),
+                          decoration: InputDecoration(
                             labelText: 'Rendezvous / Signaling Server Host',
+                            labelStyle: TextStyle(
+                              color: isDark ? ForgeColors.secondary : ForgeLightColors.primary,
+                            ),
                             hintText: 'e.g. 192.168.1.100:21115 or relay.domain.com:21115',
+                            hintStyle: TextStyle(color: mutedColor),
+                            fillColor: inputBg,
                           ),
                         ),
                         const SizedBox(height: 12),
                         TextField(
                           controller: _relayCtrl,
-                          decoration: const InputDecoration(
+                          style: TextStyle(color: titleColor),
+                          decoration: InputDecoration(
                             labelText: 'Relay Server Host',
+                            labelStyle: TextStyle(
+                              color: isDark ? ForgeColors.secondary : ForgeLightColors.primary,
+                            ),
                             hintText: 'e.g. 192.168.1.100:21117 or relay.domain.com:21117',
+                            hintStyle: TextStyle(color: mutedColor),
+                            fillColor: inputBg,
                           ),
                         ),
                         const SizedBox(height: 12),
                         TextField(
                           controller: _keyCtrl,
                           obscureText: true,
-                          decoration: const InputDecoration(
+                          style: TextStyle(color: titleColor),
+                          decoration: InputDecoration(
                             labelText: 'Server Key / Token (Optional)',
+                            labelStyle: TextStyle(
+                              color: isDark ? ForgeColors.secondary : ForgeLightColors.primary,
+                            ),
                             hintText: 'Enter secret server key if required by your server',
+                            hintStyle: TextStyle(color: mutedColor),
+                            fillColor: inputBg,
                           ),
                         ),
                       ],
@@ -229,9 +278,15 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                 // Device Alias
                 TextField(
                   controller: _aliasCtrl,
-                  decoration: const InputDecoration(
+                  style: TextStyle(color: titleColor),
+                  decoration: InputDecoration(
                     labelText: 'Device Alias (Friendly Name)',
+                    labelStyle: TextStyle(
+                      color: isDark ? ForgeColors.secondary : ForgeLightColors.primary,
+                    ),
                     hintText: 'e.g. My Laptop, Studio Mac',
+                    hintStyle: TextStyle(color: mutedColor),
+                    fillColor: inputBg,
                   ),
                 ),
 
@@ -243,10 +298,13 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                   activeThumbColor: ForgeColors.primaryLight,
                   activeTrackColor: ForgeColors.primary.withValues(alpha: 0.4),
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Allow Remote Input', style: TextStyle(fontSize: 14)),
-                  subtitle: const Text(
+                  title: Text(
+                    'Allow Remote Input',
+                    style: TextStyle(fontSize: 14, color: titleColor, fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text(
                     'Permit connected operators to move mouse and type keyboard',
-                    style: TextStyle(fontSize: 12, color: ForgeColors.textMuted),
+                    style: TextStyle(fontSize: 12, color: mutedColor),
                   ),
                   onChanged: (val) => setState(() => _allowRemoteInput = val),
                 ),
@@ -256,10 +314,13 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                   activeThumbColor: ForgeColors.primaryLight,
                   activeTrackColor: ForgeColors.primary.withValues(alpha: 0.4),
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Clipboard Synchronization', style: TextStyle(fontSize: 14)),
-                  subtitle: const Text(
+                  title: Text(
+                    'Clipboard Synchronization',
+                    style: TextStyle(fontSize: 14, color: titleColor, fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text(
                     'Automatically sync copied text between host and remote',
-                    style: TextStyle(fontSize: 12, color: ForgeColors.textMuted),
+                    style: TextStyle(fontSize: 12, color: mutedColor),
                   ),
                   onChanged: (val) => setState(() => _syncClipboard = val),
                 ),
@@ -272,12 +333,43 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                   children: [
                     OutlinedButton(
                       onPressed: () => Navigator.of(context).pop(),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: isDark ? ForgeColors.textPrimary : const Color(0xFF334155),
+                        backgroundColor: isDark ? Colors.transparent : const Color(0xFFF1F5F9),
+                        side: BorderSide(
+                          color: isDark ? ForgeColors.border : const Color(0xFFCBD5E1),
+                          width: 1.2,
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                       child: const Text('Cancel'),
                     ),
                     const SizedBox(width: 12),
                     ElevatedButton(
                       onPressed: _saveAndClose,
-                      child: const Text('Save Configuration'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ForgeColors.primary,
+                        foregroundColor: Colors.white,
+                        elevation: 2,
+                        shadowColor: ForgeColors.primaryGlow,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.check_rounded, color: Colors.white, size: 18),
+                          SizedBox(width: 8),
+                          Text(
+                            'Save Configuration',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

@@ -280,6 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildRemoteDeskCard() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GlassCard(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -330,7 +331,8 @@ class _HomeScreenState extends State<HomeScreen> {
           // Remote ID Input
           TextField(
             controller: _targetIdCtrl,
-            style: const TextStyle(
+            style: TextStyle(
+              color: isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
               fontSize: 16,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.5,
@@ -355,7 +357,11 @@ class _HomeScreenState extends State<HomeScreen> {
           TextField(
             controller: _passwordCtrl,
             obscureText: _obscurePassword,
-            style: const TextStyle(letterSpacing: 2.0, fontFamily: 'monospace'),
+            style: TextStyle(
+              color: isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
+              letterSpacing: 2.0,
+              fontFamily: 'monospace',
+            ),
             decoration: InputDecoration(
               labelText: 'Password',
               hintText: 'Enter partner access password',
@@ -383,35 +389,63 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   decoration: BoxDecoration(
-                    color: ForgeColors.surfaceLight,
+                    color: isDark ? ForgeColors.surfaceLight : const Color(0xFFF1F5F9),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: ForgeColors.border),
+                    border: Border.all(
+                      color: isDark ? ForgeColors.border : const Color(0xFFE2E8F0),
+                    ),
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: _selectedQuality,
-                      dropdownColor: ForgeColors.surfaceLight,
-                      icon: const Icon(Icons.arrow_drop_down, color: ForgeColors.textSecondary),
-                      style: const TextStyle(color: ForgeColors.textPrimary, fontSize: 13),
+                      dropdownColor: isDark ? ForgeColors.surfaceLight : Colors.white,
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: isDark ? ForgeColors.textSecondary : ForgeLightColors.textSecondary,
+                      ),
+                      style: TextStyle(
+                        color: isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
+                        fontSize: 13,
+                      ),
                       onChanged: (val) {
                         if (val != null) setState(() => _selectedQuality = val);
                       },
-                      items: const [
+                      items: [
                         DropdownMenuItem(
                           value: 'balanced',
-                          child: Text('Balanced (1080p, 30 FPS - Recommended)'),
+                          child: Text(
+                            'Balanced (1080p, 30 FPS - Recommended)',
+                            style: TextStyle(
+                              color: isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
+                            ),
+                          ),
                         ),
                         DropdownMenuItem(
                           value: 'low',
-                          child: Text('Low Latency (Fast 720p, 60 FPS)'),
+                          child: Text(
+                            'Low Latency (Fast 720p, 60 FPS)',
+                            style: TextStyle(
+                              color: isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
+                            ),
+                          ),
                         ),
                         DropdownMenuItem(
                           value: 'high',
-                          child: Text('Ultra Quality (1080p, 60 FPS)'),
+                          child: Text(
+                            'Ultra Quality (1080p, 60 FPS)',
+                            style: TextStyle(
+                              color: isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
+                            ),
+                          ),
                         ),
                         DropdownMenuItem(
                           value: 'view_only',
-                          child: Text('View Only (No input control)'),
+                          child: Text(
+                            'View Only (No input control)',
+                            style: TextStyle(
+                              color: isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary,
+                            ),
+                          ),
                         ),
                       ],
                     ),
