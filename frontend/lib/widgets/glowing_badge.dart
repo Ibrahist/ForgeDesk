@@ -114,6 +114,11 @@ class _GlowingBadgeState extends State<GlowingBadge> {
           child: badgeContent,
         ),
       );
+    } else {
+      badgeContent = MouseRegion(
+        cursor: SystemMouseCursors.basic,
+        child: badgeContent,
+      );
     }
 
     if (widget.tooltip != null) {

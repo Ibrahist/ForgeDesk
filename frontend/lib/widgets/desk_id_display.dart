@@ -113,13 +113,18 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
               ),
               const SizedBox(width: 10),
               GlowingBadge(
-                label: widget.isHosting ? 'READY' : 'PAUSED',
-                color: widget.isHosting ? ForgeColors.success : ForgeColors.warning,
-                isPulsing: widget.isHosting,
-                tooltip: widget.isHosting
-                    ? 'Host Service is Active • Click to Pause'
-                    : 'Host Service is Paused • Click to Resume',
-                onTap: () => widget.onToggleHosting(!widget.isHosting),
+                label: !widget.isConnectedToServer
+                    ? 'OFFLINE'
+                    : (widget.isHosting ? 'READY' : 'PAUSED'),
+                color: !widget.isConnectedToServer
+                    ? ForgeColors.offline
+                    : (widget.isHosting ? ForgeColors.success : ForgeColors.warning),
+                isPulsing: widget.isConnectedToServer && widget.isHosting,
+                tooltip: !widget.isConnectedToServer
+                    ? 'ForgeDesk Network: Disconnected'
+                    : (widget.isHosting
+                        ? 'ForgeDesk Network: Ready for incoming connections'
+                        : 'Host Service: Paused'),
               ),
             ],
           ),

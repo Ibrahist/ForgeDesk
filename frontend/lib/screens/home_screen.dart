@@ -255,10 +255,9 @@ class _HomeScreenState extends State<HomeScreen> {
           isPulsing: status.serverConnected,
           tooltip: status.serverConnected
               ? (status.isSelfHosted
-                  ? 'Connected to Self-Hosted Relay () • Click for Server Settings'
-                  : 'Connected to ForgeDesk Cloud Network • Click for Server Settings')
-              : 'Disconnected from Relay • Click to Configure',
-          onTap: _openSettings,
+                  ? 'Connected to Self-Hosted Relay (${status.serverUrl})'
+                  : 'ForgeDesk Cloud Network: Online')
+              : 'ForgeDesk Cloud Network: Disconnected',
         ),
         const SizedBox(width: 8),
         if (widget.onToggleTheme != null)
