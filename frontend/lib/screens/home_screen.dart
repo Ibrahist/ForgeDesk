@@ -502,14 +502,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildFooter() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = widget.isDarkMode;
+    final footerTextColor = isDark ? ForgeColors.textMuted : ForgeLightColors.textSecondary;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
       decoration: BoxDecoration(
         color: isDark ? ForgeColors.surface : ForgeLightColors.surface,
         border: Border(top: BorderSide(color: isDark ? ForgeColors.border : ForgeLightColors.border)),
       ),
-      child: const Wrap(
+      child: Wrap(
         alignment: WrapAlignment.spaceBetween,
         crossAxisAlignment: WrapCrossAlignment.center,
         spacing: 16,
@@ -518,17 +520,25 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.security_rounded, size: 14, color: ForgeColors.success),
-              SizedBox(width: 6),
+              const Icon(Icons.security_rounded, size: 14, color: ForgeColors.success),
+              const SizedBox(width: 6),
               Text(
                 'End-to-End Encrypted Peer-to-Peer Protocol',
-                style: TextStyle(color: ForgeColors.textMuted, fontSize: 11),
+                style: TextStyle(
+                  color: footerTextColor,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
           Text(
             'ForgeDesk v0.1.0 • 100% Self-Hosted & Open Source',
-            style: TextStyle(color: ForgeColors.textMuted, fontSize: 11),
+            style: TextStyle(
+              color: footerTextColor,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
