@@ -1,0 +1,2 @@
+6c575ea865d37752efcd861e9adf0b9ddd4eaaa52e8d81902e5d194b9c54316a  ForgeDesk-v1.0.0-android.apk
+fdb3643a3a4ee08cbf76c745ea466c0e3dc189fdc3002da63eb017cb1cd5edcb  ForgeDesk-v1.0.0-windows-x64.zip
