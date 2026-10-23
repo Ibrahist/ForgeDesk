@@ -114,7 +114,12 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
               const SizedBox(width: 10),
               GlowingBadge(
                 label: widget.isHosting ? 'READY' : 'PAUSED',
-                color: widget.isHosting ? ForgeColors.success : ForgeColors.offline,
+                color: widget.isHosting ? ForgeColors.success : ForgeColors.warning,
+                isPulsing: widget.isHosting,
+                tooltip: widget.isHosting
+                    ? 'Host Service is Active • Click to Pause'
+                    : 'Host Service is Paused • Click to Resume',
+                onTap: () => widget.onToggleHosting(!widget.isHosting),
               ),
             ],
           ),

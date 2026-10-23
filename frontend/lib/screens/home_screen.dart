@@ -252,6 +252,13 @@ class _HomeScreenState extends State<HomeScreen> {
           label: status.isSelfHosted ? 'SELF-HOSTED' : 'FORGEDESK NET',
           color: status.serverConnected ? ForgeColors.primaryLight : ForgeColors.offline,
           icon: status.isSelfHosted ? Icons.dns_rounded : Icons.cloud_done_rounded,
+          isPulsing: status.serverConnected,
+          tooltip: status.serverConnected
+              ? (status.isSelfHosted
+                  ? 'Connected to Self-Hosted Relay () • Click for Server Settings'
+                  : 'Connected to ForgeDesk Cloud Network • Click for Server Settings')
+              : 'Disconnected from Relay • Click to Configure',
+          onTap: _openSettings,
         ),
         const SizedBox(width: 8),
         if (widget.onToggleTheme != null)
