@@ -225,10 +225,10 @@ class _RemoteViewerScreenState extends State<RemoteViewerScreen> {
             decoration: BoxDecoration(
               color: ForgeColors.surfaceLight,
               shape: BoxShape.circle,
-              border: Border.all(color: ForgeColors.primary.withOpacity(0.3)),
+              border: Border.all(color: ForgeColors.primary.withValues(alpha: 0.3)),
               boxShadow: [
                 BoxShadow(
-                  color: ForgeColors.primary.withOpacity(0.2),
+                  color: ForgeColors.primary.withValues(alpha: 0.2),
                   blurRadius: 24,
                   spreadRadius: 4,
                 ),
@@ -316,10 +316,10 @@ class _RemoteViewerScreenState extends State<RemoteViewerScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
-                            color: msg.isMe ? ForgeColors.primary.withOpacity(0.2) : ForgeColors.surfaceLight,
+                            color: msg.isMe ? ForgeColors.primary.withValues(alpha: 0.2) : ForgeColors.surfaceLight,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: msg.isMe ? ForgeColors.primary.withOpacity(0.4) : ForgeColors.border,
+                              color: msg.isMe ? ForgeColors.primary.withValues(alpha: 0.4) : ForgeColors.border,
                             ),
                           ),
                           child: Column(

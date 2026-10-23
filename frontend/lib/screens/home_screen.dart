@@ -15,10 +15,14 @@ import 'server_settings_modal.dart';
 
 class HomeScreen extends StatefulWidget {
   final ForgeDeskBridgeService bridge;
+  final VoidCallback? onToggleTheme;
+  final bool isDarkMode;
 
   const HomeScreen({
     super.key,
     required this.bridge,
+    this.onToggleTheme,
+    this.isDarkMode = true,
   });
 
   @override
@@ -116,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final status = widget.bridge.status;
 
         return Scaffold(
-          backgroundColor: ForgeColors.background,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: _buildAppBar(status),
           body: LayoutBuilder(
             builder: (context, constraints) {
@@ -215,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 32,
               height: 32,
               fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (ctx, err, stack) => Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
@@ -243,10 +247,24 @@ class _HomeScreenState extends State<HomeScreen> {
       actions: [
         GlowingBadge(
           label: status.isSelfHosted ? 'SELF-HOSTED' : 'FORGEDESK NET',
-          color: status.serverConnected ? ForgeColors.success : ForgeColors.offline,
+          color: status.serverConnected ? ForgeColors.primaryLight : ForgeColors.offline,
           icon: status.isSelfHosted ? Icons.dns_rounded : Icons.cloud_done_rounded,
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 8),
+        if (widget.onToggleTheme != null)
+          IconButton(
+            onPressed: widget.onToggleTheme,
+            icon: Icon(
+              widget.isDarkMode ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+              color: ForgeColors.textSecondary,
+            ),
+            tooltip: widget.isDarkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme',
+            style: IconButton.styleFrom(
+              backgroundColor: ForgeColors.surfaceLight,
+              padding: const EdgeInsets.all(10),
+            ),
+          ),
+        const SizedBox(width: 4),
         IconButton(
           onPressed: _openSettings,
           icon: const Icon(Icons.settings_outlined, color: ForgeColors.textSecondary),
@@ -272,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: ForgeColors.secondary.withOpacity(0.12),
+                  color: ForgeColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -282,13 +300,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(width: 14),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Control Remote Desk',
                     style: TextStyle(
-                      color: ForgeColors.textPrimary,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? ForgeColors.textPrimary
+                          : ForgeLightColors.textPrimary,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -403,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           const SizedBox(height: 20),
 
-          // Large glowing Connect Button
+          // Large glowing Connect Button (Blue & White)
           SizedBox(
             width: double.infinity,
             height: 52,
@@ -411,19 +431,20 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () => _initiateConnection(),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ForgeColors.primary,
-                foregroundColor: Colors.black,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                 elevation: 4,
-                shadowColor: ForgeColors.primary.withOpacity(0.4),
+                shadowColor: ForgeColors.primary.withValues(alpha: 0.45),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.link_rounded, size: 20),
+                  Icon(Icons.link_rounded, color: Colors.white, size: 20),
                   SizedBox(width: 10),
                   Text(
                     'Connect to Remote Desk',
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
@@ -439,11 +460,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildFooter() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-      decoration: const BoxDecoration(
-        color: ForgeColors.surface,
-        border: Border(top: BorderSide(color: ForgeColors.border)),
+      decoration: BoxDecoration(
+        color: isDark ? ForgeColors.surface : ForgeLightColors.surface,
+        border: Border(top: BorderSide(color: isDark ? ForgeColors.border : ForgeLightColors.border)),
       ),
       child: const Wrap(
         alignment: WrapAlignment.spaceBetween,

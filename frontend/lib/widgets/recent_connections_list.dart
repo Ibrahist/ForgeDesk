@@ -83,7 +83,9 @@ class RecentConnectionsList extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: ForgeColors.surfaceLight,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? ForgeColors.surfaceLight
+                          : const Color(0xFFEFF6FF),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -99,8 +101,10 @@ class RecentConnectionsList extends StatelessWidget {
                       children: [
                         Text(
                           item.alias,
-                          style: const TextStyle(
-                            color: ForgeColors.textPrimary,
+                          style: TextStyle(
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? ForgeColors.textPrimary
+                                : ForgeLightColors.textPrimary,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),

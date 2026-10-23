@@ -27,12 +27,12 @@ class SessionToolbar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: ForgeColors.surface.withOpacity(0.92),
+        color: ForgeColors.surface.withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: ForgeColors.border.withOpacity(0.8)),
+        border: Border.all(color: ForgeColors.border.withValues(alpha: 0.8)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.6),
+            color: Colors.black.withValues(alpha: 0.6),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -169,11 +169,11 @@ class SessionToolbar extends StatelessWidget {
           ElevatedButton(
             onPressed: onDisconnect,
             style: ElevatedButton.styleFrom(
-              backgroundColor: ForgeColors.error.withOpacity(0.2),
+              backgroundColor: ForgeColors.error.withValues(alpha: 0.2),
               foregroundColor: ForgeColors.error,
               elevation: 0,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              side: BorderSide(color: ForgeColors.error.withOpacity(0.5)),
+              side: BorderSide(color: ForgeColors.error.withValues(alpha: 0.5)),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             ),
             child: const Row(

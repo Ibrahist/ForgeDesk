@@ -54,6 +54,11 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final containerBg = isDark ? ForgeColors.surfaceLight : const Color(0xFFEFF6FF);
+    final containerBorder = isDark ? ForgeColors.border : const Color(0xFFBFDBFE);
+    final titleColor = isDark ? ForgeColors.textPrimary : ForgeLightColors.textPrimary;
+
     return GlassCard(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -69,7 +74,7 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: ForgeColors.primary.withOpacity(0.12),
+                        color: ForgeColors.primary.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
@@ -79,14 +84,14 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
                       ),
                     ),
                     const SizedBox(width: 14),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'This Device',
                             style: TextStyle(
-                              color: ForgeColors.textPrimary,
+                              color: titleColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -120,9 +125,9 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
-              color: ForgeColors.surfaceLight,
+              color: containerBg,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: ForgeColors.border),
+              border: Border.all(color: containerBorder),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,9 +176,9 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
-              color: ForgeColors.surfaceLight,
+              color: containerBg,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: ForgeColors.border),
+              border: Border.all(color: containerBorder),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -290,8 +295,8 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
                   const SizedBox(width: 8),
                   Switch.adaptive(
                     value: widget.isHosting,
-                    activeColor: ForgeColors.primary,
-                    activeTrackColor: ForgeColors.primary.withOpacity(0.3),
+                    activeThumbColor: ForgeColors.primaryLight,
+                    activeTrackColor: ForgeColors.primary.withValues(alpha: 0.4),
                     inactiveThumbColor: ForgeColors.textMuted,
                     inactiveTrackColor: ForgeColors.surfaceLight,
                     onChanged: widget.onToggleHosting,

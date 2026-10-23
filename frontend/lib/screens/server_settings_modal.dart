@@ -183,7 +183,7 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                 if (_isSelfHosted) ...[
                   GlassCard(
                     padding: const EdgeInsets.all(16),
-                    backgroundColor: ForgeColors.surfaceLight.withOpacity(0.5),
+                    backgroundColor: ForgeColors.surfaceLight.withValues(alpha: 0.5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -240,7 +240,8 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
                 // Privacy and Security Toggles
                 SwitchListTile.adaptive(
                   value: _allowRemoteInput,
-                  activeColor: ForgeColors.primary,
+                  activeThumbColor: ForgeColors.primaryLight,
+                  activeTrackColor: ForgeColors.primary.withValues(alpha: 0.4),
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Allow Remote Input', style: TextStyle(fontSize: 14)),
                   subtitle: const Text(
@@ -252,7 +253,8 @@ class _ServerSettingsModalState extends State<ServerSettingsModal> {
 
                 SwitchListTile.adaptive(
                   value: _syncClipboard,
-                  activeColor: ForgeColors.primary,
+                  activeThumbColor: ForgeColors.primaryLight,
+                  activeTrackColor: ForgeColors.primary.withValues(alpha: 0.4),
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Clipboard Synchronization', style: TextStyle(fontSize: 14)),
                   subtitle: const Text(

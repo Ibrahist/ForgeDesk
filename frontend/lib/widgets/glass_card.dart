@@ -25,20 +25,32 @@ class GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final defaultBg = isDark
+        ? ForgeColors.card.withValues(alpha: 0.85)
+        : Colors.white;
+    final defaultBorder = isDark
+        ? ForgeColors.border
+        : const Color(0xFFCBD5E1);
+    final defaultShadow = isDark
+        ? Colors.black.withValues(alpha: 0.35)
+        : const Color(0xFF1E293B).withValues(alpha: 0.08);
+
     Widget card = Container(
       width: width,
       height: height,
       padding: padding,
       decoration: BoxDecoration(
-        color: backgroundColor ?? ForgeColors.card.withOpacity(0.85),
+        color: backgroundColor ?? defaultBg,
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: borderColor ?? ForgeColors.border,
+          color: borderColor ?? defaultBorder,
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.35),
+            color: defaultShadow,
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),

@@ -4,6 +4,8 @@ import 'core/theme.dart';
 import 'screens/home_screen.dart';
 import 'services/forgedesk_bridge.dart';
 
+final ValueNotifier<ThemeMode> themeModeNotifier = ValueNotifier(ThemeMode.dark);
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final bridge = ForgeDeskBridgeService();
@@ -21,11 +23,26 @@ class ForgeDeskApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppConstants.appName,
-      debugShowCheckedModeBanner: false,
-      theme: ForgeTheme.darkTheme,
-      home: HomeScreen(bridge: bridge),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeModeNotifier,
+      builder: (context, currentMode, _) {
+        return MaterialApp(
+          title: AppConstants.appName,
+          debugShowCheckedModeBanner: false,
+          theme: ForgeTheme.lightTheme,
+          darkTheme: ForgeTheme.darkTheme,
+          themeMode: currentMode,
+          home: HomeScreen(
+            bridge: bridge,
+            isDarkMode: currentMode == ThemeMode.dark,
+            onToggleTheme: () {
+              themeModeNotifier.value = themeModeNotifier.value == ThemeMode.dark
+                  ? ThemeMode.light
+                  : ThemeMode.dark;
+            },
+          ),
+        );
+      },
     );
   }
 }
