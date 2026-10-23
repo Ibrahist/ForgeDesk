@@ -51,7 +51,7 @@ pub fn generate_peer_id() -> PeerId {
 }
 
 pub fn generate_temp_password() -> String {
-    const CHARSET: &[u8] = b"abcdefghijkmnpqrstuvwxyz23456789";
+    const CHARSET: &[u8] = b"abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     let mut rng = rand::thread_rng();
     (0..6)
         .map(|_| {

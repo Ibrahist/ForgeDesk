@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../core/constants.dart';
@@ -13,6 +14,26 @@ class ForgeDeskBridgeService extends ChangeNotifier {
   Timer? _reconnectTimer;
   Timer? _mockStreamTimer;
   bool _isConnecting = false;
+
+  static final Random _fallbackRng = Random();
+
+  /// Cryptographically strong random password generator with infinite variety
+  static String generateRandomPassword({int length = 6, String? exclude}) {
+    const chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    Random rng;
+    try {
+      rng = Random.secure();
+    } catch (_) {
+      rng = _fallbackRng;
+    }
+
+    String candidate;
+    do {
+      candidate = List.generate(length, (_) => chars[rng.nextInt(chars.length)]).join();
+    } while (candidate == exclude);
+
+    return candidate;
+  }
 
   HostStatus _status = HostStatus.initial();
   HostStatus get status => _status;
@@ -35,6 +56,9 @@ class ForgeDeskBridgeService extends ChangeNotifier {
   }
 
   void initBridge() {
+    _status = _status.copyWith(
+      temporaryPassword: generateRandomPassword(exclude: _status.temporaryPassword),
+    );
     connectToDaemon();
   }
 
@@ -188,8 +212,7 @@ class ForgeDeskBridgeService extends ChangeNotifier {
     final data = command['data'];
 
     if (cmd == 'RegeneratePassword') {
-      const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
-      final newPass = List.generate(6, (i) => chars[(DateTime.now().microsecond + i * 7) % chars.length]).join();
+      final newPass = generateRandomPassword(exclude: _status.temporaryPassword);
       _status = _status.copyWith(temporaryPassword: newPass);
       notifyListeners();
     } else if (cmd == 'StartHost') {
@@ -240,7 +263,15 @@ class ForgeDeskBridgeService extends ChangeNotifier {
   }
 
   void regeneratePassword() {
-    sendCommand({'cmd': 'RegeneratePassword'});
+    final newPass = generateRandomPassword(exclude: _status.temporaryPassword);
+    _status = _status.copyWith(temporaryPassword: newPass);
+    notifyListeners();
+
+    if (_channel != null && _isBridgeActive) {
+      try {
+        _channel!.sink.add(jsonEncode({'cmd': 'RegeneratePassword'}));
+      } catch (_) {}
+    }
   }
 
   void connectRemote(String targetId, String password, {String quality = 'balanced'}) {
