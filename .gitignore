@@ -26,3 +26,8 @@ Thumbs.db
 
 # OS Generated
 *.log
+
+# Release binary archives
+release/*.zip
+release/*.apk
+dist/
