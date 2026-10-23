@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ForgeColors {
   // Backgrounds
@@ -29,10 +30,18 @@ class ForgeColors {
 
 class ForgeTheme {
   static ThemeData get darkTheme {
+    final baseTextTheme = ThemeData.dark().textTheme;
+    final orbitronTextTheme = GoogleFonts.orbitronTextTheme(baseTextTheme).apply(
+      bodyColor: ForgeColors.textPrimary,
+      displayColor: ForgeColors.textPrimary,
+    );
+
     return ThemeData(
       brightness: Brightness.dark,
+      fontFamily: 'Orbitron',
       scaffoldBackgroundColor: ForgeColors.background,
       primaryColor: ForgeColors.primary,
+      textTheme: orbitronTextTheme,
       colorScheme: const ColorScheme.dark(
         primary: ForgeColors.primary,
         secondary: ForgeColors.secondary,
@@ -42,11 +51,11 @@ class ForgeTheme {
         onSecondary: Colors.white,
         onSurface: ForgeColors.textPrimary,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: TextStyle(
+        titleTextStyle: GoogleFonts.orbitron(
           color: ForgeColors.textPrimary,
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -65,7 +74,8 @@ class ForgeTheme {
         filled: true,
         fillColor: ForgeColors.surfaceLight,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        hintStyle: const TextStyle(color: ForgeColors.textMuted, fontSize: 14),
+        hintStyle: GoogleFonts.orbitron(color: ForgeColors.textMuted, fontSize: 13),
+        labelStyle: GoogleFonts.orbitron(color: ForgeColors.textSecondary, fontSize: 13),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: ForgeColors.border, width: 1),
@@ -86,8 +96,8 @@ class ForgeTheme {
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          textStyle: const TextStyle(
-            fontSize: 15,
+          textStyle: GoogleFonts.orbitron(
+            fontSize: 14,
             fontWeight: FontWeight.bold,
             letterSpacing: 0.5,
           ),
@@ -99,6 +109,10 @@ class ForgeTheme {
           side: const BorderSide(color: ForgeColors.border, width: 1.2),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          textStyle: GoogleFonts.orbitron(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       dividerColor: ForgeColors.border,
@@ -108,7 +122,7 @@ class ForgeTheme {
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: ForgeColors.border),
         ),
-        textStyle: const TextStyle(color: ForgeColors.textPrimary, fontSize: 12),
+        textStyle: GoogleFonts.orbitron(color: ForgeColors.textPrimary, fontSize: 12),
       ),
     );
   }

@@ -251,10 +251,14 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
           const SizedBox(height: 20),
 
           // Server info & Service Toggle footer
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 12,
+            runSpacing: 10,
             children: [
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     widget.isConnectedToServer ? Icons.cloud_done_outlined : Icons.cloud_off_outlined,
@@ -265,7 +269,7 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
                   Text(
                     widget.isSelfHosted
                         ? 'Self-Hosted (${widget.serverUrl})'
-                        : 'ForgeDesk Network (${widget.serverUrl})',
+                        : 'ForgeDesk Network',
                     style: const TextStyle(
                       color: ForgeColors.textMuted,
                       fontSize: 12,
@@ -274,6 +278,7 @@ class _DeskIdDisplayCardState extends State<DeskIdDisplayCard> {
                 ],
               ),
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
                     'Host Service:',
