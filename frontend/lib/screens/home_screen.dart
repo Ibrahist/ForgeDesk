@@ -208,23 +208,26 @@ class _HomeScreenState extends State<HomeScreen> {
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [ForgeColors.primary, ForgeColors.secondary],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: ForgeColors.primary.withOpacity(0.3),
-                  blurRadius: 10,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              'assets/branding/ForgeDesk.png',
+              width: 32,
+              height: 32,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [ForgeColors.primary, ForgeColors.secondary],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-              ],
+                child: const Icon(Icons.bolt_rounded, color: Colors.black, size: 20),
+              ),
             ),
-            child: const Icon(Icons.bolt_rounded, color: Colors.black, size: 20),
           ),
           const SizedBox(width: 10),
           const Text(

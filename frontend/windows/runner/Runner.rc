@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.forgedesk" "\0"
-            VALUE "FileDescription", "forgedesk_ui" "\0"
+            VALUE "FileDescription", "ForgeDesk Remote Desktop" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "forgedesk_ui" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.forgedesk. All rights reserved." "\0"
-            VALUE "OriginalFilename", "forgedesk_ui.exe" "\0"
-            VALUE "ProductName", "forgedesk_ui" "\0"
+            VALUE "InternalName", "ForgeDesk" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 ForgeDesk Project. All rights reserved." "\0"
+            VALUE "OriginalFilename", "ForgeDesk.exe" "\0"
+            VALUE "ProductName", "ForgeDesk" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
