@@ -5,6 +5,7 @@
 [![GUI: Flutter](https://img.shields.io/badge/GUI-Flutter_3.24+-02569B.svg)](https://flutter.dev/)
 [![Platforms: Windows | macOS | Linux | Android | iOS](https://img.shields.io/badge/Platforms-Desktop_%26_Mobile-success.svg)](#cross-platform-support)
 
+
 **ForgeDesk** is a modern, high-performance, open-source remote desktop application designed as a private, self-hosted alternative to TeamViewer and AnyDesk. 
 
 ForgeDesk puts you in **complete control of your own data**, eliminating commercial telemetry, subscription paywalls, and closed-source relay servers. It connects peers out-of-the-box using a simple **9-digit ID and password**, with seamless support for both the public network and completely isolated, self-hosted private rendezvous/relay servers.
